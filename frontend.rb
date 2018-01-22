@@ -56,7 +56,6 @@ elsif input == "5"
   input_id = gets.chomp
   response = Unirest.delete("http://localhost:3000/contacts/#{input_id}")
   puts JSON.pretty_generate(response.body)
-else
 end
 
     
