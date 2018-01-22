@@ -39,9 +39,9 @@ elsif input == "4"
   input_id = gets.chomp
   response = Unirest.get("http://localhost:3000/contacts/#{input_id}")
   contact = response.body
-  puts "Enter a first name to update a contact (#{contact['first_name']}):"
+  puts "Enter a first name to update a contact (#{contact['full_name']}):"
   params["first_name"] = gets.chomp
-  puts "Enter a last_name to update a contact (#{contact['last_name']}):"
+  puts "Enter a last_name to update a contact (#{contact['full_name']}):"
   params["last_name"] = gets.chomp
   puts "Enter an email adress to update a contact (#{contact['email']}):"
   params["email"] = gets.chomp
