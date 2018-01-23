@@ -24,12 +24,18 @@ elsif input == "3"
   params = {}
   puts "Enter a first name:"
   params["first_name"] = gets.chomp
+
+  puts "Enter a middle name:"
+  params["middle_name"] = gets.chomp
   puts "Enter a last_name:"
   params["last_name"] = gets.chomp
+  
   puts "Enter an email adress:"
   params["email"] = gets.chomp
-  puts "Enter a phone_number:"
+  puts "Enter a phone number:"
   params["phone_number"] = gets.chomp
+  puts "Enter a bio:" 
+  params["bio"] = gets.chomp
   response = Unirest.post("http://localhost:3000/contacts", parameters: params)
   contact = response.body
   puts JSON.pretty_generate(contact)
@@ -43,10 +49,15 @@ elsif input == "4"
   params["first_name"] = gets.chomp
   puts "Enter a last_name to update a contact (#{contact['full_name']}):"
   params["last_name"] = gets.chomp
+  puts "Enter a middle name to update a contact (#{contact['full_name']}):"
+  params["middle_name"] = gets.chomp
   puts "Enter an email adress to update a contact (#{contact['email']}):"
   params["email"] = gets.chomp
   puts "Enter a phone_number to update a contact (#{contact['phone_number']}):"
   params["phone_number"] = gets.chomp
+  puts "Enter a bio to update a contact (#{contact['bio']}):"
+  params["bio"] = gets.chomp
+
   params.delete_if { |key, value| value.empty? }
   response = Unirest.patch("http://localhost:3000/contacts/#{input_id}", parameters: params)
   contact = response.body

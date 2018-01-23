@@ -5,8 +5,14 @@ class Contact < ApplicationRecord
   end
 
   def full_name
-    "#{first_name} #{last_name}"
+    "#{first_name} #{middle_name} #{last_name}"
   end
+
+  def japan_phone_number
+    "+81 #{phone_number}"
+  end
+
+
 
   def as_json
     {
@@ -14,7 +20,11 @@ class Contact < ApplicationRecord
       full_name: full_name,
       email: email,
       phone_number: phone_number,
-      updated_at: friendly_updated_at      
+      updated_at: friendly_updated_at,
+      japan_phone_number: japan_phone_number,
+      bio: bio 
+
+
     }
   end
 end
