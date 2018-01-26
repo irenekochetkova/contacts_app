@@ -3,6 +3,7 @@ require 'unirest'
 system 'clear'
 
 puts "[1] print one contact from the list of contacts:"
+puts "[1.1] search First name:"
 puts "[2] print a list of the contacts:"
 puts "[3] create a new contact to the list of contacts:"
 puts "[4] update a contact in the list of the contacts:"
@@ -16,6 +17,13 @@ if input == "1"
   response = Unirest.get("http://localhost:3000/contacts/#{input_id}")  
   contact = response.body
   puts JSON.pretty_generate(contact)
+elsif input == "1.1"
+  puts " Enter search term of the contact:"
+  search = gets.chomp
+  puts "Here are all the matching contacts:"
+  response = Unirest.get("http://localhost:3000/contacts?search=#{search}")
+  puts JSON.pretty_generate(response.body)
+
 elsif input == "2"
   response = Unirest.get("http://localhost:3000/contacts")
   all_contacts = response.body

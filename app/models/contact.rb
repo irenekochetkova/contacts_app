@@ -1,5 +1,13 @@
 class Contact < ApplicationRecord
 
+  validates :first_name, presence: true, uniqueness: true
+  validates :last_name, presence: true, uniqueness: true
+ 
+  validates :email,  uniqueness: true
+
+  
+
+
   def friendly_updated_at
     updated_at.strftime("%A, %d %b %Y %l:%M %p")
   end

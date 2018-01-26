@@ -6,8 +6,14 @@ class ContactsController < ApplicationController
   end
 
   def index
-    contact = Contact.all
-    render json: contact.as_json
+    contacts = Contact.all
+
+    search = params[:search]
+    if search
+      contacts = contacts.where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR bio LIKE ?", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
+    end
+
+    render json: contacts.as_json
   end
 
   def create
@@ -19,8 +25,11 @@ class ContactsController < ApplicationController
       phone_number: params[:phone_number],
       bio: params[:bio]
       )
-    contact.save
-    render json: contact.as_json
+    if contact.save
+      render json: contact.as_json
+    else 
+      render json: {errors: contact.errors.full_massage, status: 422}
+    end
   end
 
   def update
@@ -33,8 +42,12 @@ class ContactsController < ApplicationController
       phone_number: params[:phone_number] || contact.phone_number,
       bio: params[:bio] || contact.bio
       )
+   if contact.save
     render json: contact.as_json
+  else 
+    render json: {errors: contact.errors.full_massage, status: :unprocessable_entity}
   end
+end
 
   def destroy
     contact = Contact.find_by(id: params[:id])
