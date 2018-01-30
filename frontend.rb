@@ -1,5 +1,7 @@
 require 'unirest'
 
+while true
+
 system 'clear'
 
 puts "[1] print one contact from the list of contacts:"
@@ -7,7 +9,12 @@ puts "[1.1] search First name:"
 puts "[2] print a list of the contacts:"
 puts "[3] create a new contact to the list of contacts:"
 puts "[4] update a contact in the list of the contacts:"
-puts "[5] dlete a contact from the list of the contacts:"
+puts "[5] delete a contact from the list of the contacts:"
+
+puts "[6] Signup (create a user)"
+puts "[7] Login (create a JSON web token):"
+puts "[8] Logout(erase a JSON web token):"
+puts "[q] To quit"
 
 input = gets.chomp
 
@@ -27,7 +34,7 @@ elsif input == "1.1"
 elsif input == "2"
   response = Unirest.get("http://localhost:3000/contacts")
   all_contacts = response.body
-  puts JSON.pretty_generate(all_contacts  )
+  puts JSON.pretty_generate(all_contacts)
 elsif input == "3"
   params = {}
   puts "Enter a first name:"
@@ -75,6 +82,47 @@ elsif input == "5"
   input_id = gets.chomp
   response = Unirest.delete("http://localhost:3000/contacts/#{input_id}")
   puts JSON.pretty_generate(response.body)
+elsif input == "6"
+  puts "Signup!"
+  params = {}
+  puts "Name: "
+  params[:name] = gets.chomp
+  puts "Email:"
+  params[:email] = gets.chomp
+  puts "Password:"
+  params[:password] = gets.chomp
+  puts "Confirm password:"
+  params[:password_confirmation] = gets.chomp
+  response = Unirest.post("http://localhost:3000/users", parameters: params)
+  puts JSON.pretty_generate(response.body)
+elsif input == "7"
+  puts "Email:"
+  input_email = gets.chomp
+  puts "Password:"
+  input_password = gets.chomp
+  response = Unirest.post("http://localhost:3000/user_token", 
+    parameters: {
+      auth: {
+        email: input_email, 
+        password: input_password
+      }
+    }
+  )
+  
+  jwt = response.body["jwt"]
+  puts jwt
+  Unirest.default_header("Authorization",  "Bearer #{jwt}")
+
+  elsif input == "8"
+  jwt = ""
+  Unirest.clear_default_headers()
+  elsif input == "q"
+  puts "Bye!"
+  break
+  end
+  "Press any key to continue " 
+  gets.chomp
+
 end
 
     

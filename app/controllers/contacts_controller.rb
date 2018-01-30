@@ -6,15 +6,20 @@ class ContactsController < ApplicationController
   end
 
   def index
-    contacts = Contact.all
+    if current_user
+      contacts = current_user.contacts
+    # contacts = Contact.all
 
-    search = params[:search]
-    if search
-      contacts = contacts.where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR bio LIKE ?", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
-    end
+    # search = params[:search]
+    # if search
+    #   contacts = contacts.where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR bio LIKE ?", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
+    # end
 
     render json: contacts.as_json
+  else 
+    render json: []
   end
+end
 
   def create
     contact = Contact.new(
@@ -23,7 +28,8 @@ class ContactsController < ApplicationController
       last_name: params[:last_name],
       email: params[:email],
       phone_number: params[:phone_number],
-      bio: params[:bio]
+      bio: params[:bio],
+      user_id: current_user.id
       )
     if contact.save
       render json: contact.as_json
@@ -52,8 +58,8 @@ end
   def destroy
     contact = Contact.find_by(id: params[:id])
     contact.destroy
-    render json: {message: "Product successfully destroed."
-    }
+    render json: {message: "Product successfully destroed contact ##{contact.id}."}
+    
   end
 
 end
