@@ -1,6 +1,8 @@
 class Contact < ApplicationRecord
 
   belongs_to :user
+  has_many :group_contacts
+  has_many :groups, through: :group_contacts
 
   validates :first_name, presence: true, uniqueness: true
   validates :last_name, presence: true, uniqueness: true
@@ -32,7 +34,9 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       updated_at: friendly_updated_at,
       japan_phone_number: japan_phone_number,
-      bio: bio 
+      bio: bio,
+      groups: groups.map {|group| group.title
+      } 
 
 
     }

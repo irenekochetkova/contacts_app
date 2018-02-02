@@ -5,6 +5,7 @@ while true
 system 'clear'
 
 puts "[1] print one contact from the list of contacts:"
+
 puts "[1.1] search First name:"
 puts "[2] print a list of the contacts:"
 puts "[3] create a new contact to the list of contacts:"
@@ -14,6 +15,9 @@ puts "[5] delete a contact from the list of the contacts:"
 puts "[6] Signup (create a user)"
 puts "[7] Login (create a JSON web token):"
 puts "[8] Logout(erase a JSON web token):"
+
+puts "[9] See one contact and associated groups:"
+
 puts "[q] To quit"
 
 input = gets.chomp
@@ -116,6 +120,13 @@ elsif input == "7"
   elsif input == "8"
   jwt = ""
   Unirest.clear_default_headers()
+
+  elsif input == "9"
+  puts "Enter the ID of the group to see all contacts of this group:"
+  input_id = gets.chomp
+  response = Unirest.get("http://localhost:3000/groups/#{input_id}")
+  puts JSON.pretty_generate(response.body)
+
   elsif input == "q"
   puts "Bye!"
   break

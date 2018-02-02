@@ -1,9 +1,6 @@
 class ContactsController < ApplicationController
 
-  def show
-    contact = Contact.find_by(id: params[:id])
-    render json: contact.as_json
-  end
+  
 
   def index
     if current_user
@@ -20,6 +17,12 @@ class ContactsController < ApplicationController
     render json: []
   end
 end
+
+
+def show
+    contact = Contact.find_by(id: params[:id])
+    render json: contact.as_json
+  end
 
   def create
     contact = Contact.new(

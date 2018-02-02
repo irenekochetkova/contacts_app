@@ -8,4 +8,7 @@ Rails.application.routes.draw do
  delete "/contacts/:id" => "contacts#destroy"
 
  post "/users" => "users#create"
+
+ get "/groups/:id" => "groups#show"
+
 end
