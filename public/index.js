@@ -137,14 +137,28 @@ var ContactsNewPage = {
   }
 };
 
-
+var ContactsShowPage = {
+  template: "#contacts-show-page",
+  data: function() {
+    return {
+      contact: {}
+    };
+  },
+  created: function() {
+    axios.get("/contacts/" + this.$route.params.id).then(function(response) {
+      console.log(response.data);
+      this.contact = response.data;
+    }.bind(this));
+  }
+}
 var router = new VueRouter({
   routes: [
    { path: "/", component: ContactsIndexPage },
    { path: "/signup", component: SignupPage },
    { path: "/login", component: LoginPage },
    { path: "/logout", component: LogoutPage },
-   { path: "/contacts/new", component: ContactsNewPage }
+   { path: "/contacts/new", component: ContactsNewPage },
+   { path: "/contacts/:id", component: ContactsShowPage }
 
   ],
   scrollBehavior: function(to, from, savedPosition) {
