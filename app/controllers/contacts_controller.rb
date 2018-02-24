@@ -37,7 +37,7 @@ def show
     if contact.save
       render json: contact.as_json
     else 
-      render json: {errors: contact.errors.full_massage, status: 422}
+      render json: {errors: contact.errors.full_massage}, status: 422
     end
   end
 
@@ -54,14 +54,14 @@ def show
    if contact.save
     render json: contact.as_json
   else 
-    render json: {errors: contact.errors.full_massage, status: :unprocessable_entity}
+    render json: {errors: contact.errors.full_massage}, status: 422
   end
 end
 
   def destroy
     contact = Contact.find_by(id: params[:id])
     contact.destroy
-    render json: {message: "Product successfully destroed contact ##{contact.id}."}
+    render json: {message: "Product successfully destroed contact #{contact.id}."}
     
   end
 

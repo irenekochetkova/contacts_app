@@ -120,6 +120,7 @@ elsif input == "7"
   elsif input == "8"
   jwt = ""
   Unirest.clear_default_headers()
+  puts "Logged out"
 
   elsif input == "9"
   puts "Enter the ID of the group to see all contacts of this group:"
